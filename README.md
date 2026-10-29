@@ -3,6 +3,8 @@
 Updated from the supplied `id.zip`.
 
 ## UI updates
+- A consistent, calm dark-teal visual system with clearer typography, rounded surfaces, more deliberate spacing, and distinct primary, secondary, and destructive actions.
+- Login, dashboard, search, registration, registry, recovery, and audit screens share the same visual hierarchy and readable sans-serif styles.
 - Dashboard provides the main controls for the application.
 - Dashboard navigation is at the bottom.
 - Search navigation is at the bottom with Face Scan and Fingerprint tabs.
@@ -23,6 +25,4 @@ Android `BiometricPrompt` verifies a biometric enrolled on the device but does n
 ## Photo search matching update
 
 Photo search no longer compares SHA-256 hashes of entire image files. It computes an offline perceptual visual signature from a center-square grayscale crop and compares signatures using Hamming similarity. This is tolerant of some file re-encoding and small brightness changes and works for old database records by recalculating the signature from their saved photo paths. It is **not a trained face-recognition model**: different photos of the same person may still score poorly, and similar-looking people may score highly. A real identity-level face matcher requires an on-device face-embedding model and validation. Fingerprint UI, admin authentication/recovery, registry, audit log, and existing Room migrations are preserved.
-# Identica
-# Identica
-# Identica
+

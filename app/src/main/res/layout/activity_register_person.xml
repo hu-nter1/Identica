@@ -15,9 +15,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="REGISTER IDENTITY"
+            android:text="Register identity"
             android:textAppearance="@style/Identica.Title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp"
+            android:text="Add the profile details and capture the available identity scans."
+            android:textAppearance="@style/Identica.Body" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="PERSONAL DETAILS"
+            android:textAppearance="@style/Identica.Section" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameLayout"
@@ -69,26 +83,26 @@
             <RadioButton
                 android:id="@+id/sexMale"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:buttonTint="@color/neon_green"
                 android:text="Male"
-                android:textColor="@color/neon_green" />
+                android:textColor="@color/text_primary" />
 
             <RadioButton
                 android:id="@+id/sexFemale"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:buttonTint="@color/neon_green"
                 android:text="Female"
-                android:textColor="@color/neon_green" />
+                android:textColor="@color/text_primary" />
 
             <RadioButton
                 android:id="@+id/sexOther"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:buttonTint="@color/neon_green"
                 android:text="Other"
-                android:textColor="@color/neon_green" />
+                android:textColor="@color/text_primary" />
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -139,12 +153,19 @@
             android:padding="2dp"
             android:scaleType="centerCrop" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="BIOMETRIC SCANS"
+            android:textAppearance="@style/Identica.Section" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/capturePhotoButton"
-            style="@style/Identica.Button"
+            style="@style/Identica.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:text="SCAN FACE / CAPTURE PORTRAIT" />
 
         <FrameLayout
@@ -189,7 +210,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/uploadFingerprintButton"
-            style="@style/Identica.Button"
+            style="@style/Identica.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="10dp"
@@ -197,7 +218,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/enrollFingerprintButton"
-            style="@style/Identica.Button"
+            style="@style/Identica.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="12dp"

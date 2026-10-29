@@ -2,9 +2,17 @@
 <resources>
     <style name="Theme.Identica" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/neon_green</item>
+        <item name="colorOnPrimary">@color/matrix_black</item>
         <item name="colorSecondary">@color/neon_cyan</item>
+        <item name="colorOnSecondary">@color/matrix_black</item>
         <item name="colorSurface">@color/matrix_charcoal</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
         <item name="android:colorBackground">@color/matrix_black</item>
         <item name="android:windowBackground">@color/matrix_black</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:statusBarColor">@color/matrix_black</item>
+        <item name="android:navigationBarColor">@color/matrix_black</item>
     </style>
 </resources>

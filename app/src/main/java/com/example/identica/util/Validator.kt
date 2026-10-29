@@ -14,8 +14,11 @@ object Validator {
     private const val MAX_AGE = 120
 
     fun username(value: String): String? =
-        if (USERNAME_PATTERN.matches(value)) null
-        else "Use 3-32 characters: letters, digits, '_' or '.'."
+        if (USERNAME_PATTERN.matches(value)) {
+            null
+        } else {
+            "Use 3-32 characters: letters, digits, '_' or '.'."
+        }
 
     fun password(value: CharArray): String? {
         if (value.size < MIN_PASSWORD_LENGTH) return "Use at least $MIN_PASSWORD_LENGTH characters."
@@ -28,8 +31,20 @@ object Validator {
     fun fullName(value: String): String? {
         val trimmed = value.trim()
         if (trimmed.length !in 2..80) return "Name must be 2-80 characters."
-        val allowed = trimmed.all { it.isLetter() || it == ' ' || it == '-' || it == '\'' || it == '.' }
-        return if (allowed) null else "Name contains invalid characters."
+
+        val containsOnlyAllowedCharacters = trimmed.all { character ->
+            character.isLetter() ||
+                character == ' ' ||
+                character == '-' ||
+                character == '\'' ||
+                character == '.'
+        }
+
+        return if (containsOnlyAllowedCharacters) {
+            null
+        } else {
+            "Name contains invalid characters."
+        }
     }
 
     fun age(value: String): String? {
@@ -40,18 +55,32 @@ object Validator {
     fun sex(value: String?): String? =
         if (value != null && value in SEX_OPTIONS) null else "Select a sex."
 
-    fun normalizeNationalId(raw: String): String =
-        raw.filter { it.isLetterOrDigit() }.uppercase()
+    fun normalizeNationalId(raw: String): String {
+        return raw
+            .filter { character -> character.isLetterOrDigit() }
+            .uppercase()
+    }
 
     fun nationalId(value: String): String? =
-        if (NATIONAL_ID_PATTERN.matches(normalizeNationalId(value))) null
-        else "ID must be in the form CM01234JK or CF01234JK."
+        if (NATIONAL_ID_PATTERN.matches(normalizeNationalId(value))) {
+            null
+        } else {
+            "ID must be in the form CM01234JK or CF01234JK."
+        }
 
     fun documentDetails(value: String): String? =
-        if (value.trim().length in 3..120) null else "Document details must be 3-120 characters."
+        if (value.trim().length in 3..120) {
+            null
+        } else {
+            "Document details must be 3-120 characters."
+        }
 
     fun photo(file: File?): String? =
-        if (file != null && file.exists() && file.length() > 0L) null else "Capture a profile photo."
+        if (file != null && file.exists() && file.length() > 0L) {
+            null
+        } else {
+            "Capture a profile photo."
+        }
 
     fun fingerprint(hash: String?): String? = null
 }

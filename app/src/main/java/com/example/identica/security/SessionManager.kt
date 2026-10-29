@@ -18,6 +18,7 @@ class SessionManager(context: Context) {
         val masterKey = MasterKey.Builder(appContext)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
+
         prefs = EncryptedSharedPreferences.create(
             appContext,
             FILE_NAME,
@@ -28,10 +29,12 @@ class SessionManager(context: Context) {
     }
 
     fun startSession(adminId: Long, username: String) {
+        val expirationTime = System.currentTimeMillis() + SESSION_TIMEOUT_MS
+
         prefs.edit()
             .putLong(KEY_ADMIN_ID, adminId)
             .putString(KEY_USERNAME, username)
-            .putLong(KEY_EXPIRES_AT, System.currentTimeMillis() + SESSION_TIMEOUT_MS)
+            .putLong(KEY_EXPIRES_AT, expirationTime)
             .apply()
     }
 
@@ -39,7 +42,9 @@ class SessionManager(context: Context) {
         val adminId = prefs.getLong(KEY_ADMIN_ID, NO_ADMIN)
         val username = prefs.getString(KEY_USERNAME, null)
         val expiresAt = prefs.getLong(KEY_EXPIRES_AT, 0L)
+
         if (adminId == NO_ADMIN || username == null) return null
+
         if (System.currentTimeMillis() > expiresAt) {
             endSession()
             return null
@@ -48,11 +53,12 @@ class SessionManager(context: Context) {
     }
 
     fun touch() {
-        if (prefs.contains(KEY_ADMIN_ID)) {
-            prefs.edit()
-                .putLong(KEY_EXPIRES_AT, System.currentTimeMillis() + SESSION_TIMEOUT_MS)
-                .apply()
-        }
+        if (!prefs.contains(KEY_ADMIN_ID)) return
+
+        val newExpirationTime = System.currentTimeMillis() + SESSION_TIMEOUT_MS
+        prefs.edit()
+            .putLong(KEY_EXPIRES_AT, newExpirationTime)
+            .apply()
     }
 
     fun endSession() {
@@ -70,13 +76,17 @@ class SessionManager(context: Context) {
 
     fun registerFailedAttempt() {
         val attempts = prefs.getInt(KEY_FAILED_ATTEMPTS, 0) + 1
+
         if (attempts >= MAX_FAILED_ATTEMPTS) {
+            val lockExpirationTime = System.currentTimeMillis() + LOCK_DURATION_MS
             prefs.edit()
                 .putInt(KEY_FAILED_ATTEMPTS, 0)
-                .putLong(KEY_LOCKED_UNTIL, System.currentTimeMillis() + LOCK_DURATION_MS)
+                .putLong(KEY_LOCKED_UNTIL, lockExpirationTime)
                 .apply()
         } else {
-            prefs.edit().putInt(KEY_FAILED_ATTEMPTS, attempts).apply()
+            prefs.edit()
+                .putInt(KEY_FAILED_ATTEMPTS, attempts)
+                .apply()
         }
     }
 
@@ -88,12 +98,20 @@ class SessionManager(context: Context) {
     }
 
     fun pepper(): ByteArray {
-        val existing = prefs.getString(KEY_PEPPER, null)
-        if (existing != null) return Base64.decode(existing, Base64.NO_WRAP)
-        val created = ByteArray(PEPPER_BYTES)
-        SecureRandom().nextBytes(created)
-        prefs.edit().putString(KEY_PEPPER, Base64.encodeToString(created, Base64.NO_WRAP)).commit()
-        return created
+        val savedPepper = prefs.getString(KEY_PEPPER, null)
+        if (savedPepper != null) {
+            return Base64.decode(savedPepper, Base64.NO_WRAP)
+        }
+
+        val newPepper = ByteArray(PEPPER_BYTES)
+        SecureRandom().nextBytes(newPepper)
+
+        val encodedPepper = Base64.encodeToString(newPepper, Base64.NO_WRAP)
+        prefs.edit()
+            .putString(KEY_PEPPER, encodedPepper)
+            .commit()
+
+        return newPepper
     }
 
     private companion object {

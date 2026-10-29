@@ -18,21 +18,31 @@ object PasswordHasher {
     fun hash(password: CharArray): HashResult {
         val salt = ByteArray(SALT_BYTES)
         SecureRandom().nextBytes(salt)
-        val derived = derive(password, salt, ITERATIONS)
-        return HashResult(encode(derived), encode(salt), ITERATIONS)
+
+        val passwordHash = derive(password, salt, ITERATIONS)
+        return HashResult(
+            hash = encode(passwordHash),
+            salt = encode(salt),
+            iterations = ITERATIONS
+        )
     }
 
     fun verify(password: CharArray, expectedHash: String, salt: String, iterations: Int): Boolean {
-        val derived = derive(password, decode(salt), iterations)
-        return MessageDigest.isEqual(derived, decode(expectedHash))
+        val saltBytes = decode(salt)
+        val expectedHashBytes = decode(expectedHash)
+        val actualHashBytes = derive(password, saltBytes, iterations)
+
+        return MessageDigest.isEqual(actualHashBytes, expectedHashBytes)
     }
 
     fun burnTime(password: CharArray) {
+        // Keep unknown usernames from skipping the expensive password check.
         derive(password, ByteArray(SALT_BYTES), ITERATIONS)
     }
 
     private fun derive(password: CharArray, salt: ByteArray, iterations: Int): ByteArray {
         val spec = PBEKeySpec(password, salt, iterations, KEY_BITS)
+
         try {
             return SecretKeyFactory.getInstance(ALGORITHM).generateSecret(spec).encoded
         } finally {

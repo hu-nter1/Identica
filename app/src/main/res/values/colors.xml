@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="matrix_black">#000000</color>
-    <color name="matrix_charcoal">#121212</color>
-    <color name="matrix_charcoal_light">#1E1E1E</color>
-    <color name="neon_green">#00FF00</color>
-    <color name="neon_green_dim">#0A7A0A</color>
-    <color name="neon_cyan">#00FFFF</color>
-    <color name="alert_red">#FF3B3B</color>
-    <color name="text_secondary">#9CCC9C</color>
+    <color name="matrix_black">#0B1113</color>
+    <color name="matrix_charcoal">#121E20</color>
+    <color name="matrix_charcoal_light">#1D3032</color>
+    <color name="neon_green">#65D6AE</color>
+    <color name="neon_green_dim">#287C66</color>
+    <color name="neon_cyan">#8BD8E1</color>
+    <color name="alert_red">#FF8A80</color>
+    <color name="text_secondary">#A9BEC0</color>
+    <color name="text_primary">#E8F0EF</color>
+    <color name="panel_border">#294447</color>
 </resources>

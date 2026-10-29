@@ -7,61 +7,100 @@
         <item name="colorSecondary">@color/neon_cyan</item>
         <item name="colorOnSecondary">@color/matrix_black</item>
         <item name="colorSurface">@color/matrix_charcoal</item>
-        <item name="colorOnSurface">@color/neon_green</item>
+        <item name="colorOnSurface">@color/text_primary</item>
         <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorSurfaceVariant">@color/matrix_charcoal_light</item>
         <item name="colorError">@color/alert_red</item>
         <item name="android:colorBackground">@color/matrix_black</item>
         <item name="android:windowBackground">@color/matrix_black</item>
-        <item name="android:textColorPrimary">@color/neon_green</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="android:textColorHint">@color/text_secondary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
         <item name="android:statusBarColor">@color/matrix_black</item>
         <item name="android:navigationBarColor">@color/matrix_black</item>
     </style>
 
     <style name="Theme.Identica.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenBackground">@color/matrix_black</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.Identica</item>
     </style>
 
-    <style name="Identica.Button" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="strokeColor">@color/neon_green</item>
-        <item name="strokeWidth">2dp</item>
+    <style name="Identica.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/neon_green</item>
         <item name="rippleColor">@color/neon_green_dim</item>
-        <item name="cornerRadius">4dp</item>
-        <item name="android:textColor">@color/neon_green</item>
-        <item name="android:letterSpacing">0.1</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="android:textColor">@color/matrix_black</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">52dp</item>
+    </style>
+
+    <style name="Identica.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/panel_border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="rippleColor">@color/neon_green_dim</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">52dp</item>
+    </style>
+
+    <style name="Identica.Button.Danger" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/alert_red</item>
+        <item name="rippleColor">@color/matrix_charcoal_light</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="android:textColor">@color/matrix_black</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">52dp</item>
     </style>
 
     <style name="Identica.Input" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/neon_cyan</item>
-        <item name="hintTextColor">@color/neon_cyan</item>
+        <item name="boxStrokeColor">@color/neon_green</item>
+        <item name="hintTextColor">@color/neon_green</item>
         <item name="android:textColorHint">@color/text_secondary</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="boxBackgroundColor">@color/matrix_charcoal</item>
         <item name="boxStrokeErrorColor">@color/alert_red</item>
         <item name="errorTextColor">@color/alert_red</item>
-        <item name="boxCornerRadiusTopStart">4dp</item>
-        <item name="boxCornerRadiusTopEnd">4dp</item>
-        <item name="boxCornerRadiusBottomStart">4dp</item>
-        <item name="boxCornerRadiusBottomEnd">4dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
     </style>
 
     <style name="Identica.Title" parent="TextAppearance.Material3.HeadlineSmall">
-        <item name="android:textColor">@color/neon_green</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">sans</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <style name="Identica.Body" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/text_secondary</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">3dp</item>
     </style>
 
     <style name="Identica.Metric" parent="TextAppearance.Material3.DisplaySmall">
         <item name="android:textColor">@color/neon_cyan</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">sans</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Identica.Section" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textColor">@color/neon_green</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.08</item>
     </style>
 
 </resources>
