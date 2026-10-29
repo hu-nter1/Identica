@@ -1,48 +1,49 @@
-# Identica — Biometric Identity Registry
+# Identica Attendance
 
-Updated from the supplied `id.zip`.
+The cross-platform React Native app is in [`mobile/`](./mobile/). It is an offline-first prototype for tracking staff attendance at a school, company, or other premise. The original Kotlin Android app remains in the root Android project during this migration; the React Native app is the new attendance-focused implementation.
 
-## UI updates
-- A consistent, calm dark-teal visual system with clearer typography, rounded surfaces, more deliberate spacing, and distinct primary, secondary, and destructive actions.
-- Login, dashboard, search, registration, registry, recovery, and audit screens share the same visual hierarchy and readable sans-serif styles.
-- Dashboard provides the main controls for the application.
-- Dashboard navigation is at the bottom.
-- Search navigation is at the bottom with Face Scan and Fingerprint tabs.
-- Registration explicitly uses `SCAN FACE / CAPTURE PORTRAIT` and `SCAN FINGERPRINT`.
-- Fingerprint registration includes a live fingerprint visual, scan animation and 0–100% progress display.
-- Search scanner shows the portrait or fingerprint visual inside the scan frame.
-- Match results show the complete stored identity profile, including portrait, name, age, sex, masked ID, document details, scan type and match percentage.
-- Registry page shows counts for registered identities and system operators, plus identity cards with portraits and operator cards with generated avatars.
-- Existing authentication, Room database, audit log, camera capture, biometric prompt and matching features are preserved.
+## What the prototype does
 
-## Code map for beginners
+- Register staff with a unique staff number, full name, department, role, optional phone number, a required photo taken directly with the camera, and a clearly marked demo fingerprint-enrollment flag. Use “Save & capture next staff member” to register staff one after another.
+- Record daily check-in and check-out times, prevent duplicate attendance actions, and keep each day’s register on the device.
+- Configure the check-in window (defaults to **06:00–08:30**) and earliest official check-out (defaults to **15:00**). Late arrivals are marked absent unless an administrator records a late-check-in exception. Check-out has no evening cutoff; a missing check-out is resolved when the next attendance day starts.
+- Reconcile staff who did not check in as absent after the check-in window, and mark an unchecked-out staff member `absent_no_checkout` when that day closes. The daily register distinguishes this from a person who never checked in.
+- Keep a reasoned special-issues register for approved absences, late check-ins, early check-outs, and missed check-outs. An applicable exception is considered during attendance reconciliation.
+- Review attendance by date and share a CSV report using the device’s share sheet.
 
-The app is an Android project written in Kotlin. Start with `app/src/main/java/com/example/identica/IdenticaApp.kt` to see how the database, session manager, and repository are created.
+## Run the React Native app
 
-- **Frontend — `ui/`:** activities and custom views that display screens and handle user input. Screens call the repository instead of running database queries themselves.
-- **Backend — `data/`:** `IdenticaRepository.kt` coordinates validation, database access, and audit records. `data/local/` contains the Room database, SQL queries (`dao/`), and database row models (`entity/`).
-- **Backend — `security/`:** password hashing and the encrypted local session.
-- **Backend helpers — `biometric/` and `util/`:** image matching, hash calculations, bitmap handling, and input validation.
+Requirements: Node.js and npm. From this directory, install dependencies and start the Expo development server:
 
-For example, person registration starts in `ui/person/RegisterPersonActivity`, is checked and saved by `data/IdenticaRepository`, and is stored through `data/local/dao/PersonDao` as a `RegisteredPerson`. These folders are intentionally kept separate by responsibility rather than combined into broad `frontend` and `backend` folders; this is the usual Android project structure and makes each part easier to find and change.
+```bash
+cd mobile
+npm install
+npm run dev
+```
 
-Some data in this app is sensitive. Keep password hashing, encrypted session storage, national-ID masking, and audit logging in place when changing the code.
+- **Android/iOS:** scan the Expo QR code with Expo Go. The phone and computer should be on the same network.
+- **Web:** open a second terminal in `mobile/` and run `npm run web`, or press **w** in the running Expo terminal. The project configures SQLite’s WebAssembly asset and the cross-origin headers needed for browser SQLite.
+- `npm run android` and `npm run ios` open an installed simulator; iOS simulator requires macOS.
 
-## Screenshot protection
+The equivalent Expo command is `npx expo start`. Use `npx` (not `npm expo`) to run Expo directly. `npm run dev` is also available as a shortcut.
 
-Screenshot blocking is temporarily disabled in the shared secure activity and the login, sign-up, and password recovery screens. Screenshots and screen recording can include sensitive identity data while this setting is disabled. Re-enable the `FLAG_SECURE` calls in those files before using the app with real data or releasing it.
+## Important biometric limitation
 
-## Important Android biometric limitation
-Android `BiometricPrompt` verifies a biometric enrolled on the device but does not expose the raw fingerprint template or identify which enrolled finger was used. The in-app fingerprint graphics and progress are therefore visual feedback around the real Android biometric verification; they do not claim to read raw fingerprint data from the OS sensor.
+The fingerprint step is deliberately labelled as a **simulation**. Built-in Android/iOS biometrics can authenticate the device owner, but do not expose fingerprint templates or identify which employee touched a shared kiosk. This prototype does not collect, store, or compare fingerprint data. A real shared-premise deployment needs a supported external fingerprint reader and its vendor SDK (with compatible Android and iOS support) before attendance can be trusted.
 
-## Build
+The staff photo is captured manually with the in-app camera; there is no gallery or photo-upload flow and no face recognition. Local staff profiles, captured photos, schedules, attendance records, and exceptions remain on the device or browser. Android/iOS use SQLite through [`mobile/src/repository.ts`](./mobile/src/repository.ts); web uses IndexedDB through [`mobile/src/repository.web.ts`](./mobile/src/repository.web.ts). This avoids requiring browser-only SQLite/WebAssembly isolation headers and lets the same interface serve a future API-backed Neon integration. Browser data is local to that browser and does not sync to a phone or another computer. Do not put Neon credentials in the mobile client. Admin authentication, multi-device synchronization, secure backups, and tamper-resistant audit history are not implemented yet, so use test data only.
 
-From the project root, run:
+## Project layout
+
+- [`mobile/App.tsx`](./mobile/App.tsx) — React Native screens and attendance workflow.
+- [`mobile/src/repository.ts`](./mobile/src/repository.ts) — local SQLite data and schedule rules, behind the `AttendanceRepository` interface.
+- [`mobile/src/types.ts`](./mobile/src/types.ts) — staff, attendance, schedule, and exception types.
+- `app/` — retained Kotlin Android implementation during migration; its face-search features are not part of the new React Native attendance prototype.
+
+## Legacy Android build
+
+The retained Kotlin project can still be built from the root:
 
 ```bash
 bash gradlew :app:testDebugUnitTest :app:assembleDebug
 ```
-
-## Photo search matching update
-
-Photo search no longer compares SHA-256 hashes of entire image files. It computes an offline perceptual visual signature from a center-square grayscale crop and compares signatures using Hamming similarity. This is tolerant of some file re-encoding and small brightness changes and works for old database records by recalculating the signature from their saved photo paths. It is **not a trained face-recognition model**: different photos of the same person may still score poorly, and similar-looking people may score highly. A real identity-level face matcher requires an on-device face-embedding model and validation. Fingerprint UI, admin authentication/recovery, registry, audit log, and existing Room migrations are preserved.
