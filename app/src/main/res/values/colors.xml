@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="matrix_black">#000000</color>
+    <color name="matrix_charcoal">#121212</color>
+    <color name="matrix_charcoal_light">#1E1E1E</color>
+    <color name="neon_green">#00FF00</color>
+    <color name="neon_green_dim">#0A7A0A</color>
+    <color name="neon_cyan">#00FFFF</color>
+    <color name="alert_red">#FF3B3B</color>
+    <color name="text_secondary">#9CCC9C</color>
+</resources>

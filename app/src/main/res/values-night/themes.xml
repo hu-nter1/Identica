@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Identica" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/neon_green</item>
+        <item name="colorSecondary">@color/neon_cyan</item>
+        <item name="colorSurface">@color/matrix_charcoal</item>
+        <item name="android:colorBackground">@color/matrix_black</item>
+        <item name="android:windowBackground">@color/matrix_black</item>
+    </style>
+</resources>

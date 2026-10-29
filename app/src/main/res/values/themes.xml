@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Identica" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/neon_green</item>
+        <item name="colorOnPrimary">@color/matrix_black</item>
+        <item name="colorSecondary">@color/neon_cyan</item>
+        <item name="colorOnSecondary">@color/matrix_black</item>
+        <item name="colorSurface">@color/matrix_charcoal</item>
+        <item name="colorOnSurface">@color/neon_green</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorError">@color/alert_red</item>
+        <item name="android:colorBackground">@color/matrix_black</item>
+        <item name="android:windowBackground">@color/matrix_black</item>
+        <item name="android:textColorPrimary">@color/neon_green</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
+        <item name="android:statusBarColor">@color/matrix_black</item>
+        <item name="android:navigationBarColor">@color/matrix_black</item>
+    </style>
+
+    <style name="Theme.Identica.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Identica</item>
+    </style>
+
+    <style name="Identica.Button" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/neon_green</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="rippleColor">@color/neon_green_dim</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="android:textColor">@color/neon_green</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="Identica.Input" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/neon_cyan</item>
+        <item name="hintTextColor">@color/neon_cyan</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
+        <item name="boxStrokeErrorColor">@color/alert_red</item>
+        <item name="errorTextColor">@color/alert_red</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusBottomStart">4dp</item>
+        <item name="boxCornerRadiusBottomEnd">4dp</item>
+    </style>
+
+    <style name="Identica.Title" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textColor">@color/neon_green</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Identica.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="Identica.Metric" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:textColor">@color/neon_cyan</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/matrix_black" android:orientation="vertical">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="18dp" android:text="Identica" android:textAppearance="@style/Identica.Title" />
+    <TextView android:id="@+id/dashboardWelcomeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="18dp" android:textAppearance="@style/Identica.Body" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" android:padding="18dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IDENTITY NETWORK" android:textAppearance="@style/Identica.Body" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="120dp" android:layout_weight="1" android:background="@drawable/bg_neon_panel" android:gravity="center" android:orientation="vertical" android:padding="12dp">
+                <TextView android:id="@+id/personCountText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/Identica.Metric" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="REGISTERED IDENTITIES" android:textAppearance="@style/Identica.Body" />
+            </LinearLayout>
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="120dp" android:layout_weight="1" android:background="@drawable/bg_neon_panel" android:gravity="center" android:orientation="vertical" android:padding="12dp">
+                <TextView android:id="@+id/adminCountText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textAppearance="@style/Identica.Metric" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SYSTEM OPERATORS" android:textAppearance="@style/Identica.Body" />
+            </LinearLayout>
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="SELECT A MODULE BELOW. REGISTRY SHOWS ALL IDENTITIES AND OPERATORS WITH AVAILABLE PORTRAITS." android:textAppearance="@style/Identica.Body" />
+    </LinearLayout>
+    <com.google.android.material.button.MaterialButton android:id="@+id/logoutButton" style="@style/Identica.Button" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginHorizontal="18dp" android:layout_marginBottom="8dp" android:text="SECURE LOGOUT" />
+    <com.google.android.material.tabs.TabLayout android:id="@+id/dashboardTabs" android:layout_width="match_parent" android:layout_height="58dp" android:background="@color/matrix_charcoal" app:tabIndicatorColor="@color/neon_green" app:tabMode="scrollable" app:tabTextColor="@color/text_secondary" app:tabSelectedTextColor="@color/neon_green" />
+</LinearLayout>

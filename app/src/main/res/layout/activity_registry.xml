@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/matrix_black" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Identica" android:textAppearance="@style/Identica.Title"/>
+<TextView android:id="@+id/registryCountText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="0 REGISTERED IDENTITIES" android:textAppearance="@style/Identica.Body"/>
+<TextView android:id="@+id/adminCountText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="0 SYSTEM OPERATORS" android:textAppearance="@style/Identica.Body"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="IDENTITY PROFILES" android:textAppearance="@style/Identica.Title"/>
+<LinearLayout android:id="@+id/personRegistryList" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="vertical"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="SYSTEM OPERATORS" android:textAppearance="@style/Identica.Title"/>
+<LinearLayout android:id="@+id/adminRegistryList" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="vertical"/>
+</LinearLayout>
+</ScrollView>
