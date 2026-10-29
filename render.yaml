@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: identica-attendance
+    runtime: static
+    branch: main
+    rootDir: mobile
+    buildCommand: npm ci && npm run build:web
+    staticPublishPath: dist
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

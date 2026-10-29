@@ -20,7 +20,28 @@ In the Expo terminal:
 - Press `i` to open iOS (requires macOS and Xcode).
 
 Convenience commands are also available: `npm run web`, `npm run android`, and
-`npm run ios`.
+`npm run ios`. To create the production web build locally, run `npm run build:web`;
+the output is written to `dist/`.
+
+## Host the web app on Render
+
+The repository includes a Render Blueprint in `../render.yaml`. To deploy:
+
+1. Push the project to the `main` branch on GitHub.
+2. In Render, choose **New → Blueprint** and connect the `hu-nter1/Identica`
+   repository.
+3. Review the `identica-attendance` static site and create it.
+4. Wait for the build to finish, then open the `onrender.com` URL shown in Render.
+
+Render builds the Expo web app with `npm ci && npm run build:web` from this
+directory and publishes `dist/`. New commits pushed to `main` trigger deployments.
+
+**This only hosts the web frontend, not a backend.** Staff, schedules, attendance,
+photos, and exceptions remain in the browser's IndexedDB. They are not shared
+between users or browsers and are not backed up by Render. Do not use real or
+sensitive staff data until a secure backend, authentication, and backup strategy
+are implemented. Fingerprint scanning also remains unavailable; publishing the
+web app does not add the missing scanner bridge.
 
 ## Check your changes
 

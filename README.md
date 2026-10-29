@@ -43,10 +43,21 @@ The staff photo is captured manually with the in-app camera; there is no gallery
 
 ## Project layout
 
-- [`mobile/App.tsx`](./mobile/App.tsx) — React Native screens and attendance workflow.
+- [`mobile/src/app/_layout.tsx`](./mobile/src/app/_layout.tsx) — Expo Router root layout.
+- [`mobile/src/app/index.tsx`](./mobile/src/app/index.tsx) — main attendance workflow.
+- [`mobile/README.md`](./mobile/README.md) — app setup, architecture, development, and Render deployment guide.
 - [`mobile/src/repository.ts`](./mobile/src/repository.ts) — local SQLite data and schedule rules, behind the `AttendanceRepository` interface.
 - [`mobile/src/types.ts`](./mobile/src/types.ts) — staff, attendance, schedule, and exception types.
 - `app/` — retained Kotlin Android implementation during migration; its face-search features are not part of the new React Native attendance prototype.
+
+## Host the web app
+
+The root [`render.yaml`](./render.yaml) configures Render to build and publish the
+Expo web app as a static site. Connect this GitHub repository to Render using
+**New → Blueprint**. This publishes only the frontend: the app still stores
+records in each browser's local IndexedDB and does not have a shared backend.
+See the [mobile README](./mobile/README.md#host-the-web-app-on-render) for steps
+and data limitations.
 
 ## Legacy Android build
 
