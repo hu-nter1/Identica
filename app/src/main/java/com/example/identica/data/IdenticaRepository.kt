@@ -35,6 +35,7 @@ object MatchType {
 }
 
 sealed class OpResult<out T> {
+    // Expected outcomes are returned to the screen so it can show a useful message.
     data class Success<T>(val value: T) : OpResult<T>()
     data class Failure(val message: String) : OpResult<Nothing>()
 }
@@ -170,14 +171,7 @@ class IdenticaRepository(
         val actor = sessions.currentSession()
             ?: return OpResult.Failure("Session expired. Sign in again.")
 
-        val validationError = listOfNotNull(
-            Validator.fullName(draft.fullName),
-            Validator.age(draft.age.toString()),
-            Validator.sex(draft.sex),
-            Validator.nationalId(draft.nationalId),
-            Validator.documentDetails(draft.documentDetails),
-            Validator.photo(draft.photoFile)
-        ).firstOrNull()
+        val validationError = validatePersonDraft(draft)
         if (validationError != null) return OpResult.Failure(validationError)
 
         val normalizedId = Validator.normalizeNationalId(draft.nationalId)
@@ -217,6 +211,25 @@ class IdenticaRepository(
             0
         )
         return OpResult.Success(newId)
+    }
+
+    private fun validatePersonDraft(draft: PersonDraft): String? {
+        val nameError = Validator.fullName(draft.fullName)
+        if (nameError != null) return nameError
+
+        val ageError = Validator.age(draft.age.toString())
+        if (ageError != null) return ageError
+
+        val sexError = Validator.sex(draft.sex)
+        if (sexError != null) return sexError
+
+        val nationalIdError = Validator.nationalId(draft.nationalId)
+        if (nationalIdError != null) return nationalIdError
+
+        val documentError = Validator.documentDetails(draft.documentDetails)
+        if (documentError != null) return documentError
+
+        return Validator.photo(draft.photoFile)
     }
 
     suspend fun getPersons(): List<RegisteredPerson> = personDao.getAll()

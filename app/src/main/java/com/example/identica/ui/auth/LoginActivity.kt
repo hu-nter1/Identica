@@ -3,7 +3,6 @@ package com.example.identica.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
@@ -30,7 +29,8 @@ class LoginActivity : AppCompatActivity() {
             SystemClock.uptimeMillis() - launchTime < SPLASH_DURATION_MS
         }
 
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+        // TODO: Re-enable screenshot protection before production.
+        // window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
