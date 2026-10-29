@@ -19,7 +19,7 @@ export type Staff = {
   role: string;
   phone: string;
   photoUri: string | null;
-  fingerprintEnrolled: boolean;
+  fingerprintCredentialId: string | null;
   active: boolean;
 };
 
@@ -51,5 +51,5 @@ export type Schedule = {
   earliestCheckout: string;
 };
 
-export type NewStaff = Omit<Staff, 'id' | 'active'>;
+export type NewStaff = Omit<Staff, 'id' | 'active' | 'fingerprintCredentialId'>;
 export type NewException = Omit<AttendanceException, 'id' | 'staffName' | 'createdAt'>;

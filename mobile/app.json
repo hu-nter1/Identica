@@ -2,6 +2,7 @@
   "expo": {
     "name": "Identica Attendance",
     "slug": "identica-attendance",
+    "scheme": "identica-attendance",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,7 +29,8 @@
           "cameraPermission": "Allow Identica Attendance to take staff photos with the camera. Photos stay on this device."
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-router"
     ]
   }
 }

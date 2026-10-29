@@ -87,6 +87,7 @@ class BrowserAttendanceRepository implements AttendanceRepository {
     return this.requireState().staff
       .filter((person) => person.active)
       .slice()
+      .map((person) => ({ ...person, fingerprintCredentialId: person.fingerprintCredentialId ?? null }))
       .sort((left, right) => left.fullName.localeCompare(right.fullName));
   }
 
@@ -110,12 +111,22 @@ class BrowserAttendanceRepository implements AttendanceRepository {
         department: input.department.trim(),
         role: input.role.trim(),
         phone: input.phone.trim(),
+        fingerprintCredentialId: null,
         active: true,
       };
       state.staff.push(created);
     });
     if (!created) throw new Error('The saved staff member could not be loaded.');
     return created;
+  }
+
+  async saveFingerprintCredential(staffId: number, credentialId: string): Promise<void> {
+    if (!credentialId.trim()) throw new Error('A scanner enrollment reference is required.');
+    await this.mutate((state) => {
+      const staff = state.staff.find((person) => person.id === staffId && person.active);
+      if (!staff) throw new Error('The selected staff member could not be found.');
+      staff.fingerprintCredentialId = credentialId.trim();
+    });
   }
 
   async getSchedule(): Promise<Schedule> {

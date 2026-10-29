@@ -16,6 +16,7 @@ export interface AttendanceRepository {
   initialize(): Promise<void>;
   getStaff(): Promise<Staff[]>;
   addStaff(input: NewStaff): Promise<Staff>;
+  saveFingerprintCredential(staffId: number, credentialId: string): Promise<void>;
   getSchedule(): Promise<Schedule>;
   saveSchedule(schedule: Schedule): Promise<void>;
   getAttendance(date: string): Promise<Attendance[]>;
@@ -101,6 +102,10 @@ class LocalAttendanceStore {
         closed_at TEXT NOT NULL
       );
     `);
+    const staffColumns = database.getAllSync<{ name: string }>('PRAGMA table_info(staff)');
+    if (!staffColumns.some((column) => column.name === 'scanner_credential_id')) {
+      database.execSync('ALTER TABLE staff ADD COLUMN scanner_credential_id TEXT');
+    }
 
     database.withTransactionSync(() => {
       for (const [key, value] of Object.entries(defaultSchedule)) {
@@ -137,7 +142,7 @@ class LocalAttendanceStore {
       role: string;
       phone: string;
       photo_uri: string | null;
-      fingerprint_enrolled: number;
+      scanner_credential_id: string | null;
       active: number;
     }>('SELECT * FROM staff WHERE active = 1 ORDER BY full_name COLLATE NOCASE').map((row) => ({
       id: row.id,
@@ -147,7 +152,7 @@ class LocalAttendanceStore {
       role: row.role,
       phone: row.phone,
       photoUri: row.photo_uri,
-      fingerprintEnrolled: row.fingerprint_enrolled === 1,
+      fingerprintCredentialId: row.scanner_credential_id,
       active: row.active === 1,
     }));
   }
@@ -177,12 +182,22 @@ class LocalAttendanceStore {
       input.role.trim(),
       input.phone.trim(),
       input.photoUri,
-      input.fingerprintEnrolled ? 1 : 0,
+      0,
       isoTimestamp(new Date()),
     );
     const staff = this.getStaff().find((person) => person.id === result.lastInsertRowId);
     if (!staff) throw new Error('The saved staff member could not be loaded.');
     return staff;
+  }
+
+  saveFingerprintCredential(staffId: number, credentialId: string): void {
+    if (!credentialId.trim()) throw new Error('A scanner enrollment reference is required.');
+    const result = database.runSync(
+      'UPDATE staff SET scanner_credential_id = ? WHERE id = ? AND active = 1',
+      credentialId.trim(),
+      staffId,
+    );
+    if (result.changes !== 1) throw new Error('The staff member could not be updated with the fingerprint enrollment.');
   }
 
   getSchedule(): Schedule {
@@ -523,6 +538,8 @@ export const attendanceRepository: AttendanceRepository = {
   initialize: async () => localStore.initialize(),
   getStaff: async () => localStore.getStaff(),
   addStaff: async (input) => localStore.addStaff(input),
+  saveFingerprintCredential: async (staffId, credentialId) =>
+    localStore.saveFingerprintCredential(staffId, credentialId),
   getSchedule: async () => localStore.getSchedule(),
   saveSchedule: async (schedule) => localStore.saveSchedule(schedule),
   getAttendance: async (date) => localStore.getAttendance(date),
