@@ -1,36 +1,112 @@
-# Identica Android app
+# Identica
 
-A beginner-friendly standalone Android app recreated from the provided screen images, with a consistent dark teal interface and clear active-page navigation. It uses Java for app behavior and XML for layouts.
+Identica is a beginner-friendly Android identity registry app built with **Java** and **XML**. It runs locally on the phone and uses a dark teal interface.
 
-On launch, the custom splash screen displays the `falling.png` artwork for about three seconds before opening the app.
+## Features
+
+- Create one local administrator account and sign in.
+- Toggle password and recovery-code visibility with the eye buttons.
+- Reset the administrator password using the four-digit recovery code.
+- Register profiles with a name, age, sex, masked ID, optional document details, and optional portrait.
+- Take a portrait with the camera or choose one from the device.
+- Search saved profiles by name or masked ID.
+- Choose a reference photo and compare it manually with registry portraits.
+- Optionally verify the phone owner with an enrolled device fingerprint.
+- Review and clear locally stored activity logs.
+- Show `falling.png` on the splash screen for about three seconds; `guardian.png` is the app icon.
+
+## Requirements
+
+- Android Studio with Android SDK 35 installed.
+- Java 11 or newer for Gradle (Java 21 was used to build this project).
+- Android 6.0 (API 23) or newer to install the app.
 
 ## Open and run
 
-Open this folder in Android Studio, let Gradle sync, and run the `app` configuration. Or build an APK with:
+1. Open this project folder in Android Studio.
+2. Allow Gradle to sync and install any requested Android SDK components.
+3. Connect an Android phone with USB debugging enabled, or start an emulator.
+4. Select the `app` run configuration and press **Run**.
+
+To build a debug APK from a terminal:
 
 ```sh
 ./gradlew assembleDebug
 ```
 
-## Code map
+On Windows, run:
 
-- `app/src/main/java/com/example/identica/MainActivity.java` contains screen navigation, form validation, camera/photo picker, and fingerprint verification.
-- `app/src/main/java/com/example/identica/DatabaseHelper.java` saves admin accounts, identity profiles, and audit events in the app's private SQLite database.
-- `app/src/main/res/layout/` contains the XML for login, home, registration, scanning, registry, and audit screens.
-- `app/src/main/res/values/styles.xml` and `colors.xml` contain the shared design styles and colors.
+```bat
+gradlew.bat assembleDebug
+```
+
+The generated APK is:
+
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+Install the debug APK on a connected device with:
+
+```sh
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
 ## First use
 
-1. Install and open the app.
-2. Select **Create admin account** and set a username, password (at least four characters), and four-digit recovery code.
-3. Sign in, then use the navigation bar to register profiles, search by name or masked ID, browse profiles, and view or clear the audit log.
-4. On profile registration, portrait and device fingerprint verification are optional. Portraits can be taken with the camera app or selected from the device. Grant access only to photos you want saved.
-5. Fingerprint verification requires a device fingerprint sensor with a fingerprint already enrolled in Android settings.
+1. Open Identica and wait for the splash screen to finish.
+2. On the sign-in screen, choose **Create admin account**.
+3. Enter a username, a password of at least four characters, and a four-digit recovery code. Confirm the password and recovery code.
+4. Sign in with the new administrator account.
+5. Use the bottom navigation to open Home, Register, Scan, Registry, or Audit.
+6. On the Register screen, enter the required profile details. Adding a portrait and checking the phone owner's fingerprint are optional.
+7. On the Scan screen, search by name or masked ID, choose a photo for manual comparison, or verify the phone owner.
 
-Everything runs offline. No API keys, cloud service, or external database are required. Passwords and recovery codes are stored as salted PBKDF2 hashes. Use **Forgot password?** on the login screen, then enter the admin username and recovery code to set a new password. Keep the four-digit code private; anyone who has it and knows the username can reset the password. Password visibility can be toggled while entering a password. Profiles, photos, and logs are stored locally in the app's private storage; uninstalling the app deletes them. The full national ID is not saved; only its last four characters are shown/stored in masked form.
+Keep the recovery code private. Anyone who knows both the administrator username and recovery code can reset that administrator's password.
 
-If upgrading an older install that had an admin account but no recovery code, sign in with the existing password once and the app will ask you to set a recovery code.
+## Screens
 
-Android deliberately does not give apps the fingerprint image or template, nor tell the app which enrolled finger was used. The optional fingerprint action verifies the phone's enrolled owner and records that check; it does not attach a fingerprint to a person or search the registry. Camera capture saves a full-resolution portrait in app-private storage, and the registry uses smaller previews to avoid loading full-size photos into memory. Choosing a photo on the search screen shows it as a reference beside registry profiles for manual comparison; it does not perform automatic face recognition. Text search matches names and masked IDs.
+| Screen | Purpose |
+| --- | --- |
+| Sign in | Authenticate the local administrator; create the first account or open password recovery. |
+| Home | Show the operator and profile count, with a shortcut to secure logout. |
+| Register identity | Save a profile, optional portrait, and optional device-owner verification. |
+| Identity search | Search by text, choose a manual photo reference, or verify the device owner. |
+| Registry | Browse, inspect, and delete saved profiles. |
+| Audit log | Review or clear activity recorded on the device. |
 
-The provided files are screenshots, not separate portrait-image assets, so the app does not use the people shown in those screenshots as profile photos.
+## Project structure
+
+```text
+app/src/main/
+├── AndroidManifest.xml
+├── java/com/example/identica/
+│   ├── MainActivity.java       # Screens, navigation, validation, photos, and device check
+│   ├── SplashActivity.java     # Displays the custom splash before opening the app
+│   └── DatabaseHelper.java     # Local SQLite database and database operations
+└── res/
+    ├── drawable/               # Icons, backgrounds, guardian.png, and falling.png
+    ├── layout/                 # Screen layouts written in XML
+    ├── values/                 # Shared colors and styles
+    └── xml/                    # FileProvider configuration for camera photos
+```
+
+## Data and privacy
+
+- Identica works offline and does not send profile data to a server.
+- Administrator credentials, profiles, and audit events are kept in the app's private local storage.
+- Passwords and recovery codes are stored as salted PBKDF2 hashes, not as the original values.
+- The full ID entered during registration is not stored; the app saves and displays only its last four characters in masked form.
+- Portraits are saved in the app's private files. Uninstalling the app removes its local data.
+- The app has one local administrator account. It is intended as a standalone assignment/demo, not a multi-user production identity system.
+
+## Important limitations
+
+- **No automatic face recognition is implemented.** A selected photo is only a visual reference for manually comparing the profiles shown in the registry.
+- Android does not allow apps to read fingerprint images or templates. The optional biometric check asks Android to verify an enrolled fingerprint for the device owner; it does not identify a person in the registry.
+- The recovery code is exactly four digits for simplicity. It is less secure than a longer recovery secret, so do not reuse a sensitive PIN.
+- The debug APK is for development and assignment testing. A release build intended for distribution needs a release signing configuration.
+
+## Supplied images
+
+The launcher uses `app/src/main/res/drawable/guardian.png`. The custom startup screen displays `app/src/main/res/drawable/falling.png` over the app's splash background for approximately three seconds.
