@@ -2,6 +2,7 @@ package com.example.identica;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 
 import androidx.core.content.FileProvider;
+import androidx.core.splashscreen.SplashScreen;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,6 +72,10 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        long splashEndTime = SystemClock.uptimeMillis() + 3_000L;
+        splashScreen.setKeepOnScreenCondition(
+                () -> SystemClock.uptimeMillis() < splashEndTime);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -157,8 +164,12 @@ public class MainActivity extends Activity {
         };
         for (int i = 0; i < buttonIds.length; i++) {
             Button button = findViewById(buttonIds[i]);
+            boolean selected = screens[i] == screen;
+            button.setSelected(selected);
+            button.setBackgroundResource(selected
+                    ? R.drawable.bg_nav_selected : android.R.color.transparent);
             button.setTextColor(getColor(
-                    screens[i] == screen ? R.color.mint : R.color.text_secondary));
+                    selected ? R.color.mint : R.color.text_secondary));
         }
     }
 
@@ -203,21 +214,8 @@ public class MainActivity extends Activity {
         form.setOrientation(LinearLayout.VERTICAL);
         form.setPadding(dp(20), dp(12), dp(20), 0);
 
-        EditText firstCode = new EditText(this);
-        firstCode.setHint("New 4-digit recovery code");
-        firstCode.setInputType(android.text.InputType.TYPE_CLASS_NUMBER
-                | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-        firstCode.setFilters(new android.text.InputFilter[]{
-                new android.text.InputFilter.LengthFilter(4)});
-        form.addView(firstCode);
-
-        EditText confirmCode = new EditText(this);
-        confirmCode.setHint("Confirm recovery code");
-        confirmCode.setInputType(android.text.InputType.TYPE_CLASS_NUMBER
-                | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-        confirmCode.setFilters(new android.text.InputFilter[]{
-                new android.text.InputFilter.LengthFilter(4)});
-        form.addView(confirmCode);
+        EditText firstCode = addRecoveryCodeInput(form, "New 4-digit recovery code");
+        EditText confirmCode = addRecoveryCodeInput(form, "Confirm recovery code");
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Set a recovery code")
@@ -284,7 +282,7 @@ public class MainActivity extends Activity {
 
         portraitPath = "";
         ownerVerified = false;
-        portraitPreview.setImageDrawable(null);
+        portraitPreview.setImageResource(R.drawable.ic_person);
 
         page.findViewById(R.id.btnCaptureFace).setOnClickListener(view ->
                 takePhoto(REQUEST_TAKE_PORTRAIT));
@@ -341,6 +339,8 @@ public class MainActivity extends Activity {
         Button uploadButton = page.findViewById(R.id.btnUploadScan);
         EditText searchText = page.findViewById(R.id.searchText);
         ImageView scanPhotoPreview = page.findViewById(R.id.scanPhotoPreview);
+        Button photoTab = page.findViewById(R.id.btnFaceTab);
+        Button phoneCheckTab = page.findViewById(R.id.btnFingerprintTab);
 
         scanType = "FACE";
         scanPhotoPath = "";
@@ -350,23 +350,28 @@ public class MainActivity extends Activity {
         percent.setText("READY");
         status.setText("Search by name/ID or choose a portrait");
         scanButton.setText("Take portrait photo");
+        updateScanTabs(photoTab, phoneCheckTab, true);
 
-        page.findViewById(R.id.btnFaceTab).setOnClickListener(view -> {
+        photoTab.setOnClickListener(view -> {
             scanType = "FACE";
             title.setText("PHOTO SEARCH");
-            percent.setText("READY");
+            percent.setText(scanPhotoPath.isEmpty() ? "READY" : "PHOTO READY");
             scanButton.setText("Take portrait photo");
             uploadButton.setVisibility(View.VISIBLE);
-            status.setText("Photos are saved only if added to a profile");
+            status.setText(scanPhotoPath.isEmpty()
+                    ? "Choose or take a photo, then compare profiles manually."
+                    : "Photo selected. Results are for manual comparison only.");
+            updateScanTabs(photoTab, phoneCheckTab, true);
         });
 
-        page.findViewById(R.id.btnFingerprintTab).setOnClickListener(view -> {
+        phoneCheckTab.setOnClickListener(view -> {
             scanType = "FINGERPRINT";
             title.setText("PHONE OWNER CHECK");
             percent.setText("READY");
             scanButton.setText("Verify with device fingerprint");
             uploadButton.setVisibility(View.GONE);
             status.setText("Verifies this phone's owner; does not identify a profile");
+            updateScanTabs(photoTab, phoneCheckTab, false);
         });
 
         scanButton.setOnClickListener(view -> {
@@ -407,9 +412,9 @@ public class MainActivity extends Activity {
         ImageView referencePhoto = page.findViewById(R.id.searchReferencePhoto);
         TextView referenceNote = page.findViewById(R.id.searchReferenceNote);
         ArrayList<DatabaseHelper.Identity> identities = database.getIdentities(searchText);
-        String label = searchText == null ? "REGISTERED IDENTIT" : "SEARCH RESULTS: ";
+        String label = "SEARCH RESULTS: ";
         count.setText(searchText == null
-                ? identities.size() + " REGISTERED IDENTIT" + (identities.size() == 1 ? "Y" : "IES")
+                ? identities.size() + " REGISTERED " + (identities.size() == 1 ? "PROFILE" : "PROFILES")
                 : label + identities.size());
 
         if (referencePhotoPath != null && !referencePhotoPath.isEmpty()) {
@@ -451,11 +456,22 @@ public class MainActivity extends Activity {
             profileText.setText(identity.name + "\nAge " + identity.age + "  ·  " + identity.sex
                     + "\nID " + identity.maskedId + verification);
             profileText.setTextColor(getColor(R.color.text_primary));
-            profileText.setTextSize(14);
+            profileText.setTextSize(15);
+            profileText.setLineSpacing(dp(2), 1f);
             details.addView(profileText);
 
             Button deleteButton = new Button(this);
             deleteButton.setText("Delete profile");
+            deleteButton.setAllCaps(false);
+            deleteButton.setTextSize(13);
+            deleteButton.setTextColor(getColor(R.color.text_primary));
+            deleteButton.setBackgroundResource(R.drawable.bg_button_outline);
+            deleteButton.setMinHeight(dp(44));
+            deleteButton.setPadding(dp(12), 0, dp(12), 0);
+            LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, dp(44));
+            deleteParams.topMargin = dp(8);
+            deleteButton.setLayoutParams(deleteParams);
             deleteButton.setOnClickListener(view -> new AlertDialog.Builder(this)
                     .setTitle("Delete " + identity.name + "?")
                     .setMessage("This permanently removes the profile from this device.")
@@ -485,9 +501,13 @@ public class MainActivity extends Activity {
 
         if (identities.isEmpty()) {
             TextView empty = new TextView(this);
-            empty.setText(searchText == null ? "No identities registered yet." : "No matching profiles.");
+            empty.setText(searchText == null
+                    ? "No profiles yet. Register an identity to start building your local registry."
+                    : "No profiles match this search. Try another name or ID.");
+            empty.setBackgroundResource(R.drawable.bg_card);
             empty.setTextColor(getColor(R.color.text_secondary));
             empty.setTextSize(14);
+            empty.setPadding(dp(18), dp(18), dp(18), dp(18));
             list.addView(empty);
         }
     }
@@ -507,7 +527,10 @@ public class MainActivity extends Activity {
 
     private void setupAudit(View page) {
         LinearLayout list = page.findViewById(R.id.auditList);
+        TextView count = page.findViewById(R.id.auditEventCount);
         ArrayList<String> events = database.getAuditEvents();
+        count.setText(events.size() + (events.size() == 1
+                ? " RECORDED EVENT" : " RECORDED EVENTS"));
         for (String event : events) {
             TextView card = new TextView(this);
             card.setBackgroundResource(R.drawable.bg_card);
@@ -524,9 +547,11 @@ public class MainActivity extends Activity {
 
         if (events.isEmpty()) {
             TextView empty = new TextView(this);
-            empty.setText("No activity recorded yet.");
+            empty.setText("No activity yet. Sign-ins and profile changes will appear here.");
+            empty.setBackgroundResource(R.drawable.bg_card);
             empty.setTextColor(getColor(R.color.text_secondary));
             empty.setTextSize(14);
+            empty.setPadding(dp(18), dp(18), dp(18), dp(18));
             list.addView(empty);
         }
 
@@ -551,6 +576,8 @@ public class MainActivity extends Activity {
 
         togglePassword(password, page.findViewById(R.id.btnToggleNewPassword));
         togglePassword(confirmPassword, page.findViewById(R.id.btnToggleConfirmPassword));
+        togglePassword(recoveryCode, page.findViewById(R.id.btnToggleNewRecoveryCode));
+        togglePassword(confirmRecoveryCode, page.findViewById(R.id.btnToggleConfirmRecoveryCode));
 
         page.findViewById(R.id.btnBackToLogin)
                 .setOnClickListener(view -> showScreen(SCREEN_LOGIN));
@@ -597,6 +624,7 @@ public class MainActivity extends Activity {
         EditText recoveryCode = page.findViewById(R.id.recoveryCode);
         EditText newPassword = page.findViewById(R.id.recoveryNewPassword);
         EditText confirmPassword = page.findViewById(R.id.recoveryConfirmPassword);
+        togglePassword(recoveryCode, page.findViewById(R.id.btnToggleRecoveryCode));
         togglePassword(newPassword, page.findViewById(R.id.btnToggleRecoveryPassword));
         togglePassword(confirmPassword, page.findViewById(R.id.btnToggleRecoveryConfirmPassword));
 
@@ -659,6 +687,46 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void updateScanTabs(Button photoTab, Button phoneCheckTab, boolean photoSelected) {
+        Button selected = photoSelected ? photoTab : phoneCheckTab;
+        Button unselected = photoSelected ? phoneCheckTab : photoTab;
+        selected.setBackgroundResource(R.drawable.bg_nav_selected);
+        selected.setTextColor(getColor(R.color.mint));
+        unselected.setBackgroundResource(R.drawable.bg_button_outline);
+        unselected.setTextColor(getColor(R.color.text_primary));
+    }
+
+    private EditText addRecoveryCodeInput(LinearLayout parent, String hint) {
+        LinearLayout row = new LinearLayout(this);
+        row.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, dp(58)));
+        row.setBackgroundResource(R.drawable.bg_input);
+        row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+
+        EditText input = new EditText(this);
+        input.setLayoutParams(new LinearLayout.LayoutParams(0, -1, 1));
+        input.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        input.setHint(hint);
+        input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER
+                | android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        input.setFilters(new android.text.InputFilter[]{
+                new android.text.InputFilter.LengthFilter(4)});
+        row.addView(input);
+
+        ImageButton toggle = new ImageButton(this);
+        toggle.setLayoutParams(new LinearLayout.LayoutParams(dp(48), dp(48)));
+        toggle.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        toggle.setContentDescription("Show recovery code");
+        toggle.setPadding(dp(12), dp(12), dp(12), dp(12));
+        toggle.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        toggle.setImageResource(R.drawable.ic_eye_off);
+        row.addView(toggle);
+        parent.addView(row);
+        togglePassword(input, toggle);
+        return input;
+    }
+
     private void verifyDeviceFingerprint(Runnable onSuccess) {
         FingerprintManager fingerprintManager = getSystemService(FingerprintManager.class);
         if (fingerprintManager == null || !fingerprintManager.isHardwareDetected()) {
@@ -709,6 +777,7 @@ public class MainActivity extends Activity {
                 this, getPackageName() + ".fileprovider", photoFile);
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
+        intent.setClipData(ClipData.newRawUri("Portrait photo", photoUri));
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                 | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         try {
@@ -798,6 +867,14 @@ public class MainActivity extends Activity {
             ImageView preview = page.findViewById(R.id.scanPhotoPreview);
             if (status != null) {
                 status.setText("Photo selected. Results are for manual comparison only.");
+            }
+            TextView previewTitle = page.findViewById(R.id.scanPreviewTitle);
+            TextView previewStatus = page.findViewById(R.id.scanPreviewPercent);
+            if (previewTitle != null) {
+                previewTitle.setText("PHOTO REFERENCE");
+            }
+            if (previewStatus != null) {
+                previewStatus.setText("SELECTED");
             }
             if (preview != null) {
                 preview.setImageBitmap(decodePreview(savedPath, dp(500)));

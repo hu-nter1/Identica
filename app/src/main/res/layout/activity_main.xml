@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/bg_screen"
     android:orientation="vertical">
 
     <FrameLayout
@@ -13,10 +13,15 @@
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="68dp"
         android:background="@color/surface"
+        android:elevation="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="5dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="7dp">
 
         <Button
             android:id="@+id/navHome"

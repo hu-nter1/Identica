@@ -6,31 +6,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingTop="28dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="32dp">
 
         <TextView
             style="@style/PageTitle"
             android:text="Audit log" />
 
+        <TextView
+            style="@style/PageSubtitle"
+            android:text="Review sign-ins and profile activity recorded on this device." />
+
+        <TextView
+            android:id="@+id/auditEventCount"
+            style="@style/SectionTitle"
+            android:layout_marginTop="26dp"
+            android:text="RECENT ACTIVITY" />
+
         <Button
             android:id="@+id/btnClearLogs"
             style="@style/DangerButton"
-            android:layout_marginTop="16dp"
-            android:text="Delete all logs" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Activity is saved locally on this device."
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:layout_marginTop="14dp"
+            android:text="Clear activity" />
 
         <LinearLayout
             android:id="@+id/auditList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="14dp"
             android:orientation="vertical" />
     </LinearLayout>
 </ScrollView>

@@ -7,9 +7,11 @@
 
     <application
         android:allowBackup="false"
+        android:icon="@drawable/guardian"
         android:label="Identica"
+        android:roundIcon="@drawable/guardian"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/SplashTheme">
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

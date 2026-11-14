@@ -1,6 +1,6 @@
 # Identica Android app
 
-A beginner-friendly standalone Android app recreated from the provided screen images. It uses Java for app behavior and XML for layouts.
+A beginner-friendly standalone Android app recreated from the provided screen images, with a consistent dark teal interface and clear active-page navigation. It uses Java for app behavior and XML for layouts.
 
 ## Open and run
 
@@ -29,6 +29,6 @@ Everything runs offline. No API keys, cloud service, or external database are re
 
 If upgrading an older install that had an admin account but no recovery code, sign in with the existing password once and the app will ask you to set a recovery code.
 
-Android deliberately does not give apps the fingerprint image or template, nor tell the app which enrolled finger was used. The optional fingerprint action verifies the phone's enrolled owner and records that check; it does not attach a fingerprint to a person or search the registry. Photo capture and upload work, but automatic face recognition is not included. Registry search matches typed names and masked IDs.
+Android deliberately does not give apps the fingerprint image or template, nor tell the app which enrolled finger was used. The optional fingerprint action verifies the phone's enrolled owner and records that check; it does not attach a fingerprint to a person or search the registry. Camera capture saves a full-resolution portrait in app-private storage, and the registry uses smaller previews to avoid loading full-size photos into memory. Choosing a photo on the search screen shows it as a reference beside registry profiles for manual comparison; it does not perform automatic face recognition. Text search matches names and masked IDs.
 
 The provided files are screenshots, not separate portrait-image assets, so the app does not use the people shown in those screenshots as profile photos.

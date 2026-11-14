@@ -6,28 +6,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingTop="28dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="32dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Identica"
-            android:textColor="@color/text_primary"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="Identica logo"
+                android:src="@drawable/ic_identica_mark" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Identica"
+                    android:textColor="@color/text_primary"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="LOCAL IDENTITY WORKSPACE"
+                    android:textColor="@color/mint"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/homeOperator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
             android:text="Operator: Demo"
             android:textColor="@color/text_secondary"
             android:textSize="14sp" />
 
         <TextView
             style="@style/SectionTitle"
-            android:layout_marginTop="38dp"
+            android:layout_marginTop="32dp"
             android:text="OVERVIEW" />
 
         <LinearLayout
@@ -68,7 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Choose a module below to search identities, review the registry, or inspect recent activity."
+            android:background="@drawable/bg_card"
+            android:padding="18dp"
+            android:text="Use the navigation below to add a profile, search the registry, or review recent activity. Your records stay on this device."
             android:textColor="@color/text_secondary"
             android:textSize="14sp" />
 

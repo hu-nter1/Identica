@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="144dp"
+        android:height="144dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:tint="@color/mint"
+            android:src="@drawable/falling" />
+    </item>
+</layer-list>

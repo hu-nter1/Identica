@@ -8,7 +8,15 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="28dp">
+        android:padding="24dp">
+
+        <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="14dp"
+        android:contentDescription="Identica logo"
+        android:src="@drawable/ic_identica_mark" />
 
         <TextView
             android:layout_width="match_parent"
@@ -16,13 +24,13 @@
             android:gravity="center"
             android:text="Identica"
             android:textColor="@color/text_primary"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:text="Sign in to your local admin account"
             android:textColor="@color/text_secondary"
