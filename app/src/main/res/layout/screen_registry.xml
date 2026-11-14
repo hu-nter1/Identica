@@ -1,0 +1,66 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            style="@style/PageTitle"
+            android:text="Registry" />
+
+        <TextView
+            style="@style/PageSubtitle"
+            android:text="Saved profiles stay on this device. Tap a profile to view its details." />
+
+        <TextView
+            android:id="@+id/registryIdentityCount"
+            style="@style/SectionTitle"
+            android:layout_marginTop="26dp"
+            android:text="0 REGISTERED IDENTITIES" />
+
+        <ImageView
+            android:id="@+id/searchReferencePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:contentDescription="Photo used as a manual reference"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_person"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/searchReferenceNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Reference photo only. Compare profiles manually; no automatic face recognition is used."
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="1 SYSTEM OPERATOR"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_marginTop="30dp"
+            android:text="IDENTITY PROFILES" />
+
+        <LinearLayout
+            android:id="@+id/identityList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+</ScrollView>

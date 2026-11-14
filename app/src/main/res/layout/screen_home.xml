@@ -1,0 +1,81 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Identica"
+            android:textColor="@color/text_primary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/homeOperator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Operator: Demo"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_marginTop="38dp"
+            android:text="OVERVIEW" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/OverviewCard"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:id="@+id/homeIdentityCount"
+                    style="@style/OverviewNumber"
+                    android:text="0" />
+
+                <TextView
+                    style="@style/OverviewLabel"
+                    android:text="Registered identities" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/OverviewCard"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    style="@style/OverviewNumber"
+                    android:text="1" />
+
+                <TextView
+                    style="@style/OverviewLabel"
+                    android:text="System operators" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Choose a module below to search identities, review the registry, or inspect recent activity."
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            style="@style/OutlineButton"
+            android:layout_marginTop="32dp"
+            android:text="Secure logout" />
+    </LinearLayout>
+</ScrollView>

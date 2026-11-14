@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/screenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:background="@color/surface"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/navHome"
+            style="@style/NavButton"
+            android:text="HOME" />
+
+        <Button
+            android:id="@+id/navRegister"
+            style="@style/NavButton"
+            android:text="REGISTER" />
+
+        <Button
+            android:id="@+id/navScan"
+            style="@style/NavButton"
+            android:text="SCAN" />
+
+        <Button
+            android:id="@+id/navRegistry"
+            style="@style/NavButton"
+            android:text="REGISTRY" />
+
+        <Button
+            android:id="@+id/navAudit"
+            style="@style/NavButton"
+            android:text="AUDIT" />
+    </LinearLayout>
+</LinearLayout>

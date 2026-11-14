@@ -1,0 +1,10 @@
+<resources>
+    <color name="background">#0B1112</color>
+    <color name="surface">#132021</color>
+    <color name="outline">#294041</color>
+    <color name="mint">#63D6B0</color>
+    <color name="cyan">#80DCE6</color>
+    <color name="text_primary">#F1F5F5</color>
+    <color name="text_secondary">#AAB9BB</color>
+    <color name="danger">#FF8D86</color>
+</resources>

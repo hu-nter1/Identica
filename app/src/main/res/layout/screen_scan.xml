@@ -1,0 +1,132 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            style="@style/PageTitle"
+            android:text="Identity search" />
+
+        <TextView
+            style="@style/PageSubtitle"
+            android:text="Search saved profiles by name or masked ID. A phone fingerprint verifies the device owner only." />
+
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_marginTop="26dp"
+            android:text="SCAN PREVIEW" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/scanPreviewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PHOTO REFERENCE"
+                android:textColor="@color/cyan"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/scanPreviewPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="0%"
+                android:textColor="@color/mint"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PHOTO CAPTURE OR DEVICE CHECK"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scanStatus"
+            style="@style/StatusText"
+            android:layout_marginTop="14dp"
+            android:text="No photo or owner verification yet" />
+
+        <ImageView
+            android:id="@+id/scanPhotoPreview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card"
+            android:contentDescription="Selected search portrait"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_person"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnFaceTab"
+                style="@style/OutlineButton"
+                android:layout_width="0dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="Photo" />
+
+            <Button
+                android:id="@+id/btnFingerprintTab"
+                style="@style/OutlineButton"
+                android:layout_width="0dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:text="Phone check" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnScan"
+            style="@style/PrimaryButton"
+            android:layout_marginTop="12dp"
+            android:text="Take portrait photo" />
+
+        <Button
+            android:id="@+id/btnUploadScan"
+            style="@style/OutlineButton"
+            android:layout_marginTop="10dp"
+            android:text="Choose portrait photo" />
+
+        <EditText
+            android:id="@+id/searchText"
+            style="@style/FormInput"
+            android:layout_marginTop="18dp"
+            android:hint="Search by name or masked ID"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnStartSearch"
+            style="@style/PrimaryButton"
+            android:layout_marginTop="12dp"
+            android:text="Search registry" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Photos are reference images only; the app does not automatically recognize faces. Phone checks verify this device's owner only."
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp" />
+    </LinearLayout>
+</ScrollView>

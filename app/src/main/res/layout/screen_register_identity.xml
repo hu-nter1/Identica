@@ -1,0 +1,138 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            style="@style/PageTitle"
+            android:text="Register identity" />
+
+        <TextView
+            style="@style/PageSubtitle"
+            android:text="Add profile details and an optional portrait. Phone-owner fingerprint verification is optional." />
+
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_marginTop="26dp"
+            android:text="PERSONAL DETAILS" />
+
+        <EditText
+            android:id="@+id/personName"
+            style="@style/FormInput"
+            android:layout_marginTop="14dp"
+            android:hint="Full name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/personAge"
+            style="@style/FormInput"
+            android:layout_marginTop="14dp"
+            android:hint="Age"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Sex"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <RadioGroup
+            android:id="@+id/personSex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/sexMale"
+                style="@style/FormRadio"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/sexFemale"
+                style="@style/FormRadio"
+                android:text="Female" />
+
+            <RadioButton
+                android:id="@+id/sexOther"
+                style="@style/FormRadio"
+                android:text="Other" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/personId"
+            style="@style/FormInput"
+            android:layout_marginTop="14dp"
+            android:hint="National ID number"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/personDocument"
+            style="@style/FormInput"
+            android:layout_marginTop="14dp"
+            android:hint="Document details (type, issuer)"
+            android:inputType="text" />
+
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_marginTop="26dp"
+            android:text="PORTRAIT PHOTO (OPTIONAL)" />
+
+        <TextView
+            android:id="@+id/faceStatus"
+            style="@style/StatusText"
+            android:layout_marginTop="12dp"
+            android:text="No portrait selected" />
+
+        <ImageView
+            android:id="@+id/portraitPreview"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card"
+            android:contentDescription="Selected identity portrait"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_person" />
+
+        <Button
+            android:id="@+id/btnCaptureFace"
+            style="@style/OutlineButton"
+            android:layout_marginTop="10dp"
+            android:text="Take portrait photo" />
+
+        <Button
+            android:id="@+id/btnChoosePortrait"
+            style="@style/OutlineButton"
+            android:layout_marginTop="10dp"
+            android:text="Choose photo from device" />
+
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_marginTop="26dp"
+            android:text="PHONE OWNER VERIFICATION (OPTIONAL)" />
+
+        <TextView
+            android:id="@+id/fingerprintStatus"
+            style="@style/StatusText"
+            android:layout_marginTop="14dp"
+            android:text="Phone owner not verified" />
+
+        <Button
+            android:id="@+id/btnCaptureFingerprint"
+            style="@style/OutlineButton"
+            android:layout_marginTop="10dp"
+            android:text="Verify with device fingerprint" />
+
+        <Button
+            android:id="@+id/btnSaveIdentity"
+            style="@style/PrimaryButton"
+            android:layout_marginTop="20dp"
+            android:text="Register identity" />
+    </LinearLayout>
+</ScrollView>
