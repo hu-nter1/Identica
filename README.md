@@ -34,6 +34,14 @@ To build a debug APK from a terminal:
 ./gradlew assembleDebug
 ```
 
+To build the release variant for local testing:
+
+```sh
+./gradlew assembleRelease
+```
+
+The release variant is signed with Gradle's debug key so it can be installed for testing. This is not a private production signing key; configure your own protected release keystore before public distribution.
+
 On Windows, run:
 
 ```bat
@@ -44,6 +52,12 @@ The generated APK is:
 
 ```text
 app/build/outputs/apk/debug/app-debug.apk
+```
+
+The release APK is:
+
+```text
+app/build/outputs/apk/release/app-release.apk
 ```
 
 Install the debug APK on a connected device with:
@@ -105,7 +119,7 @@ app/src/main/
 - **No automatic face recognition is implemented.** A selected photo is only a visual reference for manually comparing the profiles shown in the registry.
 - Android does not allow apps to read fingerprint images or templates. The optional biometric check asks Android to verify an enrolled fingerprint for the device owner; it does not identify a person in the registry.
 - The recovery code is exactly four digits for simplicity. It is less secure than a longer recovery secret, so do not reuse a sensitive PIN.
-- The debug APK is for development and assignment testing. A release build intended for distribution needs a release signing configuration.
+- The release APK produced by this project uses the debug signing key for convenient local testing. It is not suitable for Play Store or public distribution until signed with a private release key.
 
 ## Supplied images
 
