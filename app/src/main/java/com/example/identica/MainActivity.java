@@ -10,7 +10,6 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 
 import androidx.core.content.FileProvider;
-import androidx.core.splashscreen.SplashScreen;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,10 +70,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        long splashEndTime = SystemClock.uptimeMillis() + 3_000L;
-        splashScreen.setKeepOnScreenCondition(
-                () -> SystemClock.uptimeMillis() < splashEndTime);
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

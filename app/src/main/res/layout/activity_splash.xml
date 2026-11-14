@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_splash_screen"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="184dp"
+        android:layout_height="184dp"
+        android:background="@drawable/bg_splash_tile"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Falling figure splash artwork"
+            android:scaleType="fitCenter"
+            android:src="@drawable/falling"
+            android:tint="@color/mint" />
+    </FrameLayout>
+</LinearLayout>

@@ -2,6 +2,8 @@
 
 A beginner-friendly standalone Android app recreated from the provided screen images, with a consistent dark teal interface and clear active-page navigation. It uses Java for app behavior and XML for layouts.
 
+On launch, the custom splash screen displays the `falling.png` artwork for about three seconds before opening the app.
+
 ## Open and run
 
 Open this folder in Android Studio, let Gradle sync, and run the `app` configuration. Or build an APK with:
